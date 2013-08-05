@@ -1,0 +1,11 @@
+{
+	"name" : "VisioM/eedomus_php_framework",
+	"require" : {
+		"php" : ">=5.3"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"VisioM" : "src"
+		}
+	}
+}
