@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'VisioM' => array($baseDir . '/src'),
+    'Slim' => array($vendorDir . '/slim/slim'),
 );
