@@ -1,2 +1,2 @@
-eedomus_php_framework
-=====================
+FREEDOM - Framework Rest EEDOMus
+================================
