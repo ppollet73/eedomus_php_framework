@@ -1,12 +1,44 @@
 {
+	"name" : "FREEDOM",
+	"description" : "Framework Rest EEDOMus",
+	"authors" : [{
+			"name" : "Pierre Pollet",
+			"email" : "ppollet73@free.fr",
+			"role" : "Developper"
+		}
+	],
 	"require" : {
+		"monolog/monolog" : "1.6.0",
+		"phpunit/phpunit" : "3.7.23",
 		"slim/slim" : "2.3.1",
-		"php" : ">=5.3"
+		"php" : ">=5.3",
+		"DJMomo/ApiFreebox" : "0.1.0",
+		"slim/extras" : "2.0.3",
+		"vrana/notorm" : "dev-master"
 	},
 	"autoload" : {
 		"psr-0" : {
+			"Slim" : "vendor/slim",
 			"VisioM" : "src"
 		}
 	},
-	"minimum-stability" : "stable"
+	"support" : {
+		"source" : "https://github.com/ppollet73/eedomus_php_framework",
+		"issues" : "https://github.com/ppollet73/eedomus_php_framework/issues",
+		"wiki" : "https://github.com/ppollet73/eedomus_php_framework/wiki"
+	},
+	"repositories" : [{
+			"name" : "DJMomo",
+			"type" : "package",
+			"package" : {
+				"name" : "DJMomo/ApiFreebox",
+				"version" : "0.1.0",
+				"source" : {
+					"type" : "git",
+					"url" : "https://github.com/DjMomo/ClassePhpFreebox.git",
+					"reference" : "master"
+				}
+			}
+		}
+	]
 }
