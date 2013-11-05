@@ -1,0 +1,134 @@
+{
+    "basePath":"http://petstore.swagger.wordnik.com/api",
+    "swaggerVersion":"1.2",
+    "apiVersion":"1.0.0",
+    "resourcePath":"/user",
+    "apis":[
+        {
+            "path":"/user/login",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Logs user into the system",
+                    "nickname":"loginUser",
+                    "type":"string",
+                    "parameters":[
+                        {
+                            "paramType":"query",
+                            "name":"username",
+                            "type":"string",
+                            "required":true,
+                            "description":"The user name for login"
+                        },
+                        {
+                            "paramType":"query",
+                            "name":"password",
+                            "type":"string",
+                            "required":true,
+                            "description":"The password for login in clear text"
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid username and password combination"
+                        }
+                    ],
+                    "notes":""
+                }
+            ]
+        },
+        {
+            "path":"/user/logout",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Logs out current logged in user session",
+                    "nickname":"logoutUser",
+                    "type":"void",
+                    "notes":""
+                }
+            ]
+        },
+        {
+            "path":"/user/{username}",
+            "operations":[
+                {
+                    "method":"GET",
+                    "summary":"Get user by user name",
+                    "nickname":"getUserByName",
+                    "type":"User",
+                    "parameters":[
+                        {
+                            "paramType":"path",
+                            "name":"username",
+                            "type":"string",
+                            "required":true,
+                            "description":"The name that needs to be fetched. Use user1 for testing."
+                        }
+                    ],
+                    "responseMessages":[
+                        {
+                            "code":400,
+                            "message":"Invalid username supplied"
+                        },
+                        {
+                            "code":404,
+                            "message":"User not found"
+                        }
+                    ],
+                    "notes":""
+                }
+            ]
+        }
+    ],
+    "models":{
+        "User":{
+            "id":"User",
+            "properties":{
+                "id":{
+                    "description":"Unique identifier for the user",
+                    "type":"integer",
+                    "format":"int64"
+                },
+                "firstName":{
+                    "description":"First name of the user",
+                    "type":"string"
+                },
+                "username":{
+                    "description":"Unique username",
+                    "type":"string"
+                },
+                "lastName":{
+                    "description":"Last name of the user",
+                    "type":"string"
+                },
+                "email":{
+                    "description":"Email address of the user",
+                    "type":"string"
+                },
+                "password":{
+                    "description":"Password name of the user",
+                    "type":"string"
+                },
+                "phone":{
+                    "description":"Phone number of the user",
+                    "type":"string"
+                },
+                "userStatus":{
+                    "description":"User Status",
+                    "type":"integer",
+                    "format":"int32",
+                    "enum":[
+                        "1-registered",
+                        "2-active",
+                        "3-closed"
+                    ]
+                }
+            }
+        }
+    },
+    "produces":[
+        "application/json"
+    ]
+}
