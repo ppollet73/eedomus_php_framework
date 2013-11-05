@@ -1,1 +1,5 @@
 /phpMyAdmin
+/vendor
+.buildpath
+.project
+.settings
