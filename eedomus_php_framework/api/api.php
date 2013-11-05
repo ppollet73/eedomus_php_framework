@@ -264,7 +264,7 @@ $app->get('/freebox/wifi/off', function() use ($app)
 /**  * @SWG\Resource(
  *   apiVersion="1.0.0",
  *   swaggerVersion="1.2",
- *   basePath="http://localhost:8080/api",
+ *   basePath="http://localhost/api",
  *   resourcePath="saison",
  *   description="Operations sur les saisons",
  *   produces="['application/xml']"
@@ -280,7 +280,7 @@ $app->get('/freebox/wifi/off', function() use ($app)
  *     method="GET",
  *     summary="Saison actuelle",
  *     notes="Retourne é la saison actuelle",
- *     nickname="karotzColorTemp",
+ *     nickname="Saison",
  *     @SWG\ResponseMessage(code=200, message="Succesfull return")
   *   )
  * )
