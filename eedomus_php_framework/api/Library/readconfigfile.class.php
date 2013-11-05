@@ -20,7 +20,6 @@ class readconfigfile
 		
 		// 	Analyse avec les sections
 		$this->ConfigParams = parse_ini_file($filename, TRUE);
-		//print_r($this->ConfigParams);
 	}
 
 	function showParam($section,$name)

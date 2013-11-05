@@ -1,0 +1,390 @@
+html {
+	background-color: rgb(38, 38, 38);
+}
+body {
+	background: rgb(255, 255, 255); color: black;
+}
+abbr {
+	border-color: rgb(153, 153, 153);
+}
+h1 {
+	color: rgb(51, 51, 102);
+}
+h1 a {
+	color: rgb(51, 51, 102);
+}
+h1 a:visited {
+	color: rgb(51, 51, 102);
+}
+h1 a:link {
+	color: rgb(51, 51, 102);
+}
+h1 a:hover {
+	color: rgb(0, 0, 0);
+}
+h1 a:focus {
+	color: rgb(0, 0, 0);
+}
+h2 {
+	color: rgb(38, 38, 38);
+}
+h2 a {
+	color: rgb(38, 38, 38);
+}
+h2 a:visited {
+	color: rgb(38, 38, 38);
+}
+h2 a:link {
+	color: rgb(38, 38, 38);
+}
+h2 a:hover {
+	color: rgb(0, 0, 0);
+}
+h2 a:focus {
+	color: rgb(0, 0, 0);
+}
+h1 {
+	color: rgb(51, 51, 102); font-weight: normal;
+}
+h2 {
+	color: rgb(51, 51, 102); font-weight: normal;
+}
+h3 {
+	color: rgb(51, 51, 102); font-weight: normal;
+}
+h4 {
+	color: rgb(51, 51, 102); font-weight: normal;
+}
+h5 {
+	color: rgb(51, 51, 102); font-weight: normal;
+}
+h6 {
+	color: rgb(51, 51, 102); font-weight: normal;
+}
+a:link {
+	color: rgb(51, 102, 153); border-bottom-color: currentColor; border-bottom-width: 1px; border-bottom-style: solid;
+}
+a:visited {
+	color: rgb(51, 102, 153); border-bottom-color: currentColor; border-bottom-width: 1px; border-bottom-style: solid;
+}
+a:hover {
+	color: rgb(102, 153, 51); border-bottom-color: rgb(102, 153, 51);
+}
+a:focus {
+	color: rgb(102, 153, 51); border-bottom-color: rgb(102, 153, 51);
+}
+ul {
+	list-style-type: disc;
+}
+ol {
+	list-style-type: decimal;
+}
+em {
+	color: rgb(38, 38, 38);
+}
+strong {
+	color: rgb(38, 38, 38);
+}
+dl.qandaentry {
+	border-color: rgb(0, 0, 0);
+}
+h1.refname {
+	color: rgb(102, 102, 153);
+}
+.refentry .refpurpose {
+	border-radius: 0px 0px 2px 2px; border-top-color: rgb(115, 115, 115); box-shadow: inset 2px 0px 2px -2px #d6d6d6, inset -2px 0px 2px -2px #d6d6d6; background-color: rgb(240, 240, 240);
+}
+.classsynopsis {
+	border-radius: 0px 0px 2px 2px; color: rgb(38, 38, 38); border-top-color: rgb(102, 102, 153); border-bottom-color: rgb(202, 202, 227); box-shadow: inset 2px 0px 2px -2px #d4d4e8, inset -2px 0px 2px -2px #d4d4e8; background-color: rgb(238, 238, 246); -moz-border-radius: 0 0 2px 2px;
+}
+.refsect1 {
+	border-radius: 0px 0px 2px 2px; color: rgb(38, 38, 38); border-top-color: rgb(102, 102, 153); border-bottom-color: rgb(202, 202, 227); box-shadow: inset 2px 0px 2px -2px #d4d4e8, inset -2px 0px 2px -2px #d4d4e8; background-color: rgb(238, 238, 246); -moz-border-radius: 0 0 2px 2px;
+}
+.interfacename a {
+	color: rgb(102, 153, 51);
+}
+.fieldsynopsis .type {
+	color: rgb(102, 153, 51);
+}
+.methodsynopsis .type {
+	color: rgb(102, 153, 51);
+}
+.constructorsynopsis .type {
+	color: rgb(102, 153, 51);
+}
+fieldsynopsis .modifier {
+	color: rgb(68, 68, 68);
+}
+.methodsynopsis .modifier {
+	color: rgb(68, 68, 68);
+}
+.constructorsynopsis .modifier {
+	color: rgb(68, 68, 68);
+}
+.classsynopsis {
+	color: rgb(77, 77, 77);
+}
+.docs .classsynopsisinfo_comment {
+	color: rgb(255, 136, 0);
+}
+.refsect1 h3.title {
+	color: rgb(38, 38, 38);
+}
+.methodname b {
+	color: rgb(51, 102, 153);
+}
+.methodname strong {
+	color: rgb(51, 102, 153);
+}
+.methodname a {
+	color: rgb(51, 102, 153);
+}
+.classsynopsis .classname {
+	color: rgb(51, 102, 153);
+}
+.parameter {
+	color: rgb(51, 102, 153);
+}
+.initializer {
+	color: rgb(153, 51, 102);
+}
+.initializer code {
+	color: rgb(153, 51, 102);
+}
+.dc-description {
+	color: rgb(115, 115, 115);
+}
+div.tip {
+	background: rgb(236, 242, 249); border-color: rgb(205, 222, 238) rgb(205, 222, 238) rgb(198, 217, 236);
+}
+blockquote.note {
+	border-color: rgb(213, 213, 213); background-color: rgb(238, 238, 238);
+}
+div.caution {
+	background: rgb(252, 252, 233); border-color: rgb(226, 226, 209);
+}
+.refsect1 blockquote.note {
+	background: rgb(255, 255, 255); border-color: rgb(229, 230, 233); margin-left: 0px;
+}
+div.warning {
+	background: rgb(249, 236, 242); border-color: rgb(238, 205, 222);
+}
+div.warning a:link {
+	color: rgb(153, 51, 102);
+}
+div.warning a:visited {
+	color: rgb(153, 51, 102);
+}
+div.tip::before {
+	left: 0px; top: 0px; width: 100%; border-top-color: rgba(255, 255, 255, 0.5); border-top-width: 1px; border-top-style: solid; display: block; position: absolute; content: "";
+}
+div.caution::before {
+	left: 0px; top: 0px; width: 100%; border-top-color: rgba(255, 255, 255, 0.5); border-top-width: 1px; border-top-style: solid; display: block; position: absolute; content: "";
+}
+blockquote.note::before {
+	left: 0px; top: 0px; width: 100%; border-top-color: rgba(255, 255, 255, 0.5); border-top-width: 1px; border-top-style: solid; display: block; position: absolute; content: "";
+}
+div.warning::before {
+	left: 0px; top: 0px; width: 100%; border-top-color: rgba(255, 255, 255, 0.5); border-top-width: 1px; border-top-style: solid; display: block; position: absolute; content: "";
+}
+.navbar {
+	border-color: rgb(102, 102, 153);
+}
+#head-beta-warning {
+	border-color: rgb(102, 153, 102); color: rgb(255, 255, 255); background-color: rgb(153, 204, 153);
+}
+#beta-warning .blurb a {
+	border-color: rgb(255, 255, 255); color: rgb(255, 255, 255);
+}
+#beta-warning .blurb strong {
+	border-color: rgb(255, 255, 255); color: rgb(255, 255, 255);
+}
+#beta-warning-close {
+	border-radius: 2px; color: rgb(255, 255, 255); background-color: rgb(102, 153, 102); -moz-border-radius: 2px;
+}
+#usernotes h3.title {
+	border-color: rgb(102, 102, 153); color: rgb(38, 38, 38);
+}
+#usernotes .count {
+	border-radius: 4px; color: rgb(255, 255, 255); background-color: rgb(102, 102, 153); -moz-border-radius: 4px;
+}
+#usernotes .note .name {
+	color: rgb(68, 68, 68);
+}
+#usernotes .note .date {
+	color: rgb(102, 102, 102);
+}
+#usernotes .note .name:hover + .genanchor {
+	color: black;
+}
+#usernotes .note .text {
+	border-top-color: rgb(217, 217, 217); border-bottom-color: rgb(217, 217, 217); box-shadow: inset 2px 0px 2px -2px #e0e0e0, inset -2px 0px 2px -2px #e0e0e0; background-color: rgb(242, 242, 242);
+}
+#usernotes .note .votes .tally {
+	color: rgb(38, 38, 38);
+}
+#usernotes .note .votes a {
+	transition:border 0.4s; -webkit-transition: border 0.4s; -moz-transition: border 0.4s; -o-transition: border 0.4s;
+}
+.doctable {
+	border-color: rgb(204, 204, 204);
+}
+.doctable thead tr {
+	border-color: rgb(153, 153, 204); color: rgb(38, 38, 38);
+}
+.doctable th {
+	background-color: rgb(187, 187, 221);
+}
+.doctable tr {
+	border-color: rgb(204, 204, 204);
+}
+.doctable tbody tr:nth-child(2n+1) {
+	background-color: rgb(255, 255, 255);
+}
+.doctable tbody tr:nth-child(2n) {
+	background-color: rgb(238, 238, 246);
+}
+.example-contents > [class$='code'] {
+	border-color: rgb(205, 205, 205) rgb(214, 214, 214) rgb(214, 214, 214) !important; background-color: rgb(255, 255, 255);
+}
+.screen.example-contents {
+	border-color: rgb(205, 205, 205) rgb(214, 214, 214) rgb(214, 214, 214) !important; background-color: rgb(255, 255, 255);
+}
+.refsect1 .dc-description {
+	background: rgb(255, 255, 255); border-color: rgb(217, 217, 217) rgb(224, 224, 224) rgb(224, 224, 224);
+}
+.docs .sect1 .dc-description {
+	background: rgb(255, 255, 255); border-color: rgb(217, 217, 217) rgb(224, 224, 224) rgb(224, 224, 224);
+}
+.phpcode span.html {
+	color: black; background-color: transparent;
+}
+.phpcode span.comment {
+	color: rgb(128, 128, 128); background-color: transparent;
+}
+div.phpcode span.default {
+	color: rgb(51, 102, 153); background-color: transparent;
+}
+div.phpcode span.keyword {
+	color: rgb(102, 153, 51); background-color: transparent;
+}
+div.phpcode span.string {
+	color: rgb(204, 51, 51); background-color: transparent;
+}
+a.genanchor:link {
+	color: transparent; border-bottom-color: currentColor; border-bottom-width: medium; border-bottom-style: none;
+}
+a.genanchor:visited {
+	color: transparent; border-bottom-color: currentColor; border-bottom-width: medium; border-bottom-style: none;
+}
+a.genanchor:hover {
+	color: rgb(0, 0, 0); border-bottom-color: currentColor; border-bottom-width: medium; border-bottom-style: none;
+}
+a.genanchor:focus {
+	color: rgb(0, 0, 0); border-bottom-color: currentColor; border-bottom-width: medium; border-bottom-style: none;
+}
+.warn {
+	border-color: rgb(102, 102, 153); border-radius: 0px 0px 2px 2px; background-color: rgb(242, 242, 242);
+}
+pre.info {
+	border-color: rgb(221, 221, 221); background-color: rgb(239, 239, 239);
+}
+aside.tips {
+	border-color: rgb(153, 153, 204);
+}
+aside.tips div.border {
+	display: none;
+}
+aside.tips div.inner {
+	background: rgb(238, 238, 246); border-radius: 0px 0px 2px 2px;
+}
+.soft-deprecation-notice {
+	border-color: rgb(238, 205, 222); color: rgb(38, 38, 38); background-color: rgb(249, 236, 242);
+}
+.soft-deprecation-notice h1.title {
+	color: rgb(69, 78, 85);
+}
+.soft-deprecation-notice blockquote.sidebar {
+	border-color: rgb(102, 102, 0); color: rgb(102, 0, 0);
+}
+#breadcrumbs {
+	background: rgb(242, 242, 242); border-color: rgb(224, 224, 224) rgb(224, 224, 224) rgb(217, 217, 217); border-radius: 2px; color: rgb(115, 115, 115); -moz-border-radius: 2px;
+}
+#breadcrumbs li:last-child a {
+	color: rgb(77, 77, 77);
+}
+#breadcrumbs a:link {
+	color: rgb(51, 102, 153);
+}
+#breadcrumbs a:visited {
+	color: rgb(51, 102, 153);
+}
+#breadcrumbs li:last-child a:hover {
+	color: rgb(102, 153, 51);
+}
+#breadcrumbs li:last-child a:focus {
+	color: rgb(102, 153, 51);
+}
+#breadcrumbs a:hover {
+	color: rgb(102, 153, 51);
+}
+#breadcrumbs a:focus {
+	color: rgb(102, 153, 51);
+}
+.layout-menu {
+	border-color: rgb(224, 224, 224) rgb(224, 224, 224) rgb(217, 217, 217); border-radius: 2px; background-color: rgb(242, 242, 242);
+}
+.layout-menu ul.parent-menu-list a {
+	color: rgb(38, 38, 38);
+}
+.layout-menu ul.parent-menu-list a:hover {
+	border-color: rgb(102, 153, 51); color: rgb(102, 153, 51); text-shadow: 0px 0px 0.25em #fff;
+}
+.layout-menu ul.parent-menu-list > li > a {
+	color: rgb(0, 0, 0);
+}
+.layout-menu ul.child-menu-list a {
+	border-bottom-color: rgb(189, 189, 189);
+}
+.layout-menu ul.child-menu-list .current a {
+	border-color: rgb(102, 102, 153); color: rgb(102, 102, 153);
+}
+footer {
+	border-top-color: rgb(153, 153, 204); background-color: rgb(38, 38, 38);
+}
+footer a {
+	color: rgb(204, 204, 204);
+}
+footer a:link {
+	color: rgb(204, 204, 204); border-bottom-color: currentColor; border-bottom-width: medium; border-bottom-style: none;
+}
+footer a:visited {
+	color: rgb(204, 204, 204); border-bottom-color: currentColor; border-bottom-width: medium; border-bottom-style: none;
+}
+footer a:hover {
+	color: rgb(136, 136, 136); border-bottom-color: currentColor; border-bottom-width: medium; border-bottom-style: none;
+}
+footer a:focus {
+	color: rgb(136, 136, 136); border-bottom-color: currentColor; border-bottom-width: medium; border-bottom-style: none;
+}
+div.elephpants div.images {
+	background-color: rgb(38, 38, 38);
+}
+div.elephpants img {
+	transition:0.25s ease-in-out; -webkit-transition: all 0.25s ease-in-out; -moz-transition: all 0.25s ease-in-out; -webkit-opacity: 0.5;
+}
+div.elephpants:hover img {
+	transition:0.25s ease-in-out; opacity: 0.6; -webkit-transition: all 0.25s ease-in-out; -moz-transition: all 0.25s ease-in-out; -webkit-opacity: 0.6; -moz-opacity: 0.6;
+}
+div.elephpants img:hover {
+	opacity: 1; -webkit-opacity: 1; -moz-opacity: 1;
+}
+div.elephpants img:focus {
+	opacity: 1; -webkit-opacity: 1; -moz-opacity: 1;
+}
+.newsItem {
+	border-color: rgb(153, 153, 204);
+}
+.newsItem .published {
+	color: rgb(51, 51, 51);
+}

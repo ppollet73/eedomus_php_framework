@@ -1,6 +1,6 @@
 <?php
 class Params{
-	
+	//TODO faire la gestion d'erreur
 	private $db;
 	private $connection;
 	
@@ -21,31 +21,55 @@ class Params{
 	function add($ParamName,$ParamValue)
 	{
 		$this->db->parameters()->insert_update(
-				array("ParamName" => $ParamName), // unique key
-				array("ParamValue" => $ParamValue)//, // insert values if the row doesn't exist
+				array("ParamName" => htmlentities(strtolower($ParamName), ENT_QUOTES,'iso-8859-1')), // unique key
+				array("ParamValue" => htmlentities(strtolower($ParamValue), ENT_QUOTES,'iso-8859-1'))//, // insert values if the row doesn't exist
 		); 
+		return "Parameter created or updated";
 	}
 	
 	function delete($ParamName)
 	{
 		//TODO gérer la possibilité de rollbacker une suppression
-		$Parameter = $this->db->parameters("ParamName = ?", $ParamName)->fetch();
+		$Parameter = $this->db->parameters("ParamName = ?", strtolower($ParamName))->fetch();
 		$Parameter->delete();
-		
+		return "Parameter deleted";
 	}
 	
-	function showParam($ParamName,$output)
+	function inc($ParamName){
+		$dbResult=$this->db->parameters("ParamName = ?", strtolower($ParamName))->fetch();
+		$ParamValue=intval($dbResult['ParamValue']);
+		$ParamValue=$ParamValue + 1;
+		$result=$this->add($ParamName,$ParamValue);
+
+		return "Parameter increased by one";
+	}
+	
+	function dec($ParamName){
+		$dbResult=$this->db->parameters("ParamName = ?", strtolower($ParamName))->fetch();
+		$ParamValue=intval($dbResult['ParamValue']);
+		$ParamValue=$ParamValue - 1;
+		$result=$this->add($ParamName,$ParamValue);
+		
+		return "Parameter increased by one";
+	}
+	
+	function showParam($ParamName)
 	{
+		$result=array();
 		if ($ParamName <> '')
 		{
-			$Parameter = $this->db->parameters("ParamName = ?", $ParamName)->fetch();
-			$result=$Parameter[ParamValue];
+			$Parameter = $this->db->parameters("ParamName = ?", strtolower($ParamName))->fetch();
+			if ($Parameter){
+				$result=array($Parameter['ParamName'] => $Parameter['ParamValue']);
+			}
+			else{
+				$result=array($ParamName => "Parametre inexistant");
+			}
+				
 		}
 		else 
 		{
-			$result=array();
 			foreach($this->db->parameters() as $parameters) { // get all applications
-				//echo "$parameters[ParamName]:$parameters[ParamValue]\n"; // print application title
 				$result = $result + array($parameters['ParamName'] => $parameters['ParamValue']);
 			}
 		
