@@ -1,4 +1,5 @@
 <?php
+//
 require '../vendor/autoload.php';
 use Swagger\Annotations as SWG;
 use Swagger\Swagger;
