@@ -199,10 +199,10 @@ class eedomus {
       *
       * @return pas de retour
       */
-     function TempRessentie($IdTemp,$IdVent,$Unite)
+     function TempRessentie($IdTemp,$IdVent,$Unit)
      {
      	$Temp= $this->GetPeriphValue($IdTemp);
-     	if ($unite=="ms")
+     	if ($Unit=="ms")
      	{
      		$Vent= $this->GetPeriphValue($IdVent)*3.6;
      	}

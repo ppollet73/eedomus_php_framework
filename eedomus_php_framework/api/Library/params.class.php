@@ -63,6 +63,7 @@ class Params{
 				$result=array($Parameter['ParamName'] => $Parameter['ParamValue']);
 			}
 			else{
+				//TODO modifier le retour d'erreur pour inclure, le code http 404/410 suivant les cas
 				$result=array($ParamName => "Parametre inexistant");
 			}
 				

@@ -3,24 +3,38 @@
     "swaggerVersion":"1.2",
     "apis":[
         {
+            "path":"/energy",
+            "description":"Operations for energy monitoring "
+        },
+        {
             "path":"/karotz",
-            "description":"Operations avec un karotz <a href=\"http://openkarotz.filippi.org\">libere</a>"
+            "description":"Operations on <a href=\"http://openkarotz.filippi.org\">OpenKarotz</a> "
+        },
+        {
+            "path":"/math",
+            "description":"Math for eedomus"
+        },
+        {
+            "path":"/meteo",
+            "description":"Operations for meteo "
         },
         {
             "path":"/param",
-            "description":"Operations sur les parametres"
+            "description":"Operations on parameters"
         },
         {
             "path":"/saison",
-            "description":"Operations sur les saisons"
+            "description":"Operations on seasons"
+        },
+        {
+            "path":"/freebox",
+            "description":"Operations on freeboxOS"
         }
         ]
-     ,"info":{"title":"Aide FREEDOM - Framework Rest EEDOmus",
-     		  "description":"This is a sample server Petstore server.  You can find out more about Swagger \n    at <a href=\"http://swagger.wordnik.com\">http://swagger.wordnik.com</a> or on irc.freenode.net, #swagger.  For this sample,\n    you can use the api key \"special-key\" to test the authorization filters",
-     		  "termsOfServiceUrl":"http://helloreverb.com/terms/",
-     		  "contact":"dev4domotique@gmail.com",
-     		  "license":"Apache 2.0",
-     		  "licenseUrl":"http://www.apache.org/licenses/LICENSE-2.0.html"
+     ,"info":{"title":"FREEDOM Help - Framework Rest EEDOmus",
+     		  "description":"This is a the help of FREEDOM framework. <br><br> <STRONG>in the referenced functions, it exists one special parameter type which is STORED_&lt;ParamName&gt;,</STRONG> <br><br>this means that before using these functions a named parameter <ParamName> has to be set using the syntax HTTP/POST:https://&lt;@API&gt;/api/param/&lt;ParamName&gt;/&lt;ParamValue&gt;, this has to be done only once before using the function the first time.<br><br> The base URL for all below calls is <STRONG>https://&lt;@API&gt;/api/.....</STRONG><br><br> You can log issues <a href='https://github.com/ppollet73/eedomus_php_framework/issues' target=_blank>here</a>",
+     		  "contact":"dev4domotique@gmail.com"
+
      }
     
 }

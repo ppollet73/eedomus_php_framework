@@ -3,8 +3,17 @@
 	"description" : "Framework Rest EEDOMus",
 	"authors" : [{
 			"name" : "Pierre Pollet",
-			"email" : "ppollet73@free.fr",
+			"email" : "dev4domotique@gmail.com",
 			"role" : "Developper"
+		}, {
+			"name" : "Aurel",
+			"role" : "Tester"
+		}, {
+			"name" : "Domotifred",
+			"role" : "Tester"
+		}, {
+			"name" : "DarkYoda",
+			"role" : "Tester"
 		}
 	],
 	"require" : {
