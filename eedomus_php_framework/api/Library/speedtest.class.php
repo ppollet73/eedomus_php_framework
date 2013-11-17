@@ -10,12 +10,12 @@ class speedtest
 {
 
     private $maxrounds = 1;
-    private $downloads = "./speedtest/temp_down/";
-    private $uploads = "./speedtest/upload/";
-    private $datadir = "./speedtest/data/";
+    private $downloads = "/speedtest/temp_down/";
+    private $uploads = "/speedtest/upload/";
+    private $datadir = "/speedtest/data/";
     private $useragent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13';
     private $speedtestServersUrl = 'http://www.speedtest.net/speedtest-servers.php';
-    private $speedtestServersFile = './speedtest/testservers.xml';
+    private $speedtestServersFile = '/speedtest/testservers.xml';
     private $countryCode = 'FR';
     private $do_size = array(1 => 500, 2 => 1000, 3 => 1500, 4 => 2000, 5 => 2500, 6 => 3000, 7 => 3500, 8 => 4000, 9 => 5000, 10 => 5500, 11 => 6500, 12 => 7000, 13 => 7500, 14 =>8000, 15 =>8500, 16 => 9000, 17 => 9500, 18 => 10000, 19 => 20000);
     private $randoms = null;
