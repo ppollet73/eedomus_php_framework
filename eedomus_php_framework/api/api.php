@@ -23,6 +23,7 @@ $configFile=new ReadConfigFile;
  $params=new Params($configFile);
 
 //eedomus Init
+//TODO gérer les problèmes de connexion à l'api eedomus
 $eedomus = new eeDomus;
 $eedomus_apiuser  =$params->showParam('eedomus_apiuser');
 $eedomus_apisecret=$params->showParam('eedomus_apisecret');
@@ -95,6 +96,7 @@ $app->get('/', function () use ($app){
 * )
 */
 // Eedomus Math functions
+
 $app->get('/math/:operator/:p1/:p2/:pr', function ($operator,$p1,$p2,$pr) use ($app,$eedomus){
 	//TODO gerer correctement les retours
 	    
@@ -786,6 +788,45 @@ $app->get('/saison', function()  use ($app)
 	
 
 });
+
+/********************************
+ *
+* START Internet PART
+*
+*******************************/
+/**  * @SWG\Resource(
+ *   apiVersion="1.0.0",
+ *   swaggerVersion="1.2",
+ *   basePath="http://localhost:8080/api",
+ *   resourcePath="internet",
+ *   description="Internet performances",
+ *   produces="['application/xml']"
+* )
+*/
+
+$app->get('/internet', function()  use ($app)
+{
+	/**
+	 *
+	 * @url GET custom
+	 *
+	 * @SWG\Api(
+	 *   path="/internet",
+	 *   @SWG\Operation(
+	 *     method="GET",
+	 *     summary="current internet performances",
+	 *     notes="Return the current internet performances using speedtest, return is xml, <br>values must be divided by 100 to get the real value",
+	 *     nickname="internet",
+	 *     @SWG\ResponseMessage(code=200, message="Succesfull return")
+	 *   )
+	 * )
+	 */
+	$speedtest = new speedtest();
+	$app->XmlOutput($speedtest->run());
+	//var_dump($speedtest->run());
+
+});
+
 /********************************
 *
 * START DOC part

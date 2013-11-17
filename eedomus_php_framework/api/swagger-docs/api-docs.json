@@ -7,6 +7,10 @@
             "description":"Operations for energy monitoring "
         },
         {
+            "path":"/internet",
+            "description":"Internet performances "
+        },
+        {
             "path":"/karotz",
             "description":"Operations on <a href=\"http://openkarotz.filippi.org\">OpenKarotz</a> "
         },
