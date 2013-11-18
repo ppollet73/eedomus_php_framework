@@ -1,5 +1,5 @@
 <?php
-
+// based on https://github.com/Owkkuri/php-speedtest/blob/master/speedtest.php
 //TODO tester sur plusiers serveurs pour lisser les résultats, il faut donc augmenter le temps de run de cette page
 //TODO stocker le resultat dans des paramètres et scheduler la partie recup des données
 //TODO Code cleaning
@@ -213,39 +213,50 @@ class speedtest
 
     private function ping($host)
     {
-        $package = "\x08\x00\x19\x2f\x00\x00\x00\x00\x70\x69\x6e\x67";
+    	if (strtolower(substr(php_uname('s'),0,7))=='windows')
+    	{
+			
+    		$package = "\x08\x00\x19\x2f\x00\x00\x00\x00\x70\x69\x6e\x67";
 
-        /* create the socket, the last '1' denotes ICMP */
-        $socket = socket_create(AF_INET, SOCK_RAW, 1);
+        	/* create the socket, the last '1' denotes ICMP */
+        	$socket = socket_create(AF_INET, SOCK_RAW, 1);
 
-        $sec = 0;
-        $usec = 500 * 1000;
+        	$sec = 0;
+        	$usec = 500 * 1000;
 
-        /* set socket receive timeout to 1 second */
-        socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array("sec" =>$sec, "usec" => $usec));
+        	/* set socket receive timeout to 1 second */
+        	socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array("sec" =>$sec, "usec" => $usec));
 
-        /* connect to socket */
-        socket_connect($socket, $host, null);
+        	/* connect to socket */
+        	socket_connect($socket, $host, null);
 
-        /* record start time */
-        list($start_usec, $start_sec) = explode(" ", microtime());
-        $start_time = ((float)$start_usec + (float)$start_sec);
+        	/* record start time */
+        	list($start_usec, $start_sec) = explode(" ", microtime());
+        	$start_time = ((float)$start_usec + (float)$start_sec);
 
 
-        socket_send($socket, $package, strlen($package), 0);
+        	socket_send($socket, $package, strlen($package), 0);
 
-        if (@socket_read($socket, 255)) {
-            list($end_usec, $end_sec) = explode(" ", microtime());
-            $end_time = ((float)$end_usec + (float)$end_sec);
+        	if (@socket_read($socket, 255)) {
+            	list($end_usec, $end_sec) = explode(" ", microtime());
+            	$end_time = ((float)$end_usec + (float)$end_sec);
 
-            $total_time = $end_time - $start_time;
+            	$total_time = $end_time - $start_time;
 
-            return round($total_time * 1000,2);
-        } else {
-            return round((((float)$sec  * 1000)+((float)$usec / 1000)),2);
-        }
+            	return round($total_time * 1000,2);
+        	} else {
+            	return round((((float)$sec  * 1000)+((float)$usec / 1000)),2);
+        	}
 
-        socket_close($socket);
+        	socket_close($socket);	
+    	}	
+    	else
+    	{
+			
+			exec("ping -c 1 " . $host . " |head -n 2|tail -n 1|awk '{print $8}'|awk -F= '{print $2}'", $ping_time);
+			return $ping_time[0]; // First item in array, since exec returns an array.
+
+    	}
     }
 
 }
