@@ -1,7 +1,8 @@
 <?php
 // based on https://github.com/Owkkuri/php-speedtest/blob/master/speedtest.php
-//TODO tester sur plusiers serveurs pour lisser les résultats, il faut donc augmenter le temps de run de cette page
+//TODO tester le download sur plusiers serveurs pour lisser les résultats, il faut donc augmenter le temps de run de cette page
 //TODO stocker le resultat dans des paramètres et scheduler la partie recup des données
+//TODO gérer le test d'upload
 //TODO Code cleaning
 
 

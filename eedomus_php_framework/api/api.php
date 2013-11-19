@@ -804,7 +804,7 @@ $app->get('/saison', function()  use ($app)
 * )
 */
 
-$app->get('/internet', function()  use ($app)
+$app->get('/internet', function()  use ($app,$params)
 {
 	/**
 	 *
@@ -822,9 +822,15 @@ $app->get('/internet', function()  use ($app)
 	 * )
 	 */
 	$speedtest = new speedtest();
-	$app->XmlOutput($speedtest->run());
-	//var_dump($speedtest->run());
-
+	$result=$speedtest->run();
+	$params->add("InternetDownloadSpeed",$result['download']/100);
+	$params->add("InternetLatency",$result['latency']/100);
+	$app->JsonOutput(array(
+			'error' => FALSE,
+			'msg' => 'tests results saved in parameters \'InternetDownloadSpeed\' and \'InternetLatency\'',
+			'status' => 200,
+	));
+	
 });
 
 /********************************
