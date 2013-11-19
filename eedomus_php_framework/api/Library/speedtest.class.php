@@ -254,8 +254,10 @@ class speedtest
     	{
 			
 			exec("ping -c 1 " . $host . " |head -n 2|tail -n 1|awk '{print $8}'|awk -F= '{print $2}'", $ping_time);
-			return $ping_time[0]; // First item in array, since exec returns an array.
-
+			if ((float)$ping_time[0])
+			   	return (float)$ping_time[0]; // First item in array, since exec returns an array.
+      		else
+         		return (float)10000;
     	}
     }
 
