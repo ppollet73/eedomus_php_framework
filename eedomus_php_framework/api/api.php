@@ -736,7 +736,7 @@ $app->get('/freebox/wifi/:state', function($state) use ($app)
 	 *     nickname="season",
 	 *     @SWG\Parameter(
 	 *       name="state",
-	 *       description="wanted state for the wifi either ON or OFF",
+	 *       description="the wanted state for the wifi either ON or OFF",
 	 *       required=true,
 	 *       type="integer",
 	 *       format="int64",
