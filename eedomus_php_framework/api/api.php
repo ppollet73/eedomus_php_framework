@@ -849,6 +849,20 @@ $app->get('/api-docs/', function() use ($app)
 {
 	$app->redirect('swagger-docs/api-docs.json');
 });
+
+/********************************
+ *
+* update part
+*
+*******************************/
+$app->put('/update', function() use ($app)
+{
+	$update=new update();
+	$test2=$update->run();
+});
+
+
+
 /*****************************************
  * 
  * START Launching the slim application
