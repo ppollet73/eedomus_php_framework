@@ -815,7 +815,7 @@ $app->get('/internet', function()  use ($app,$params)
 	 *   @SWG\Operation(
 	 *     method="GET",
 	 *     summary="current internet performances",
-	 *     notes="Return the current internet performances using speedtest, return is xml, <br>values must be divided by 100 to get the real value",
+	 *     notes="Return the current internet performances using speedtest, <br>two parameters are updated InternetDownloadSpeed and InternetLatency,<br>values must be divided by 100 to get the real value, ",
 	 *     nickname="internet",
 	 *     @SWG\ResponseMessage(code=200, message="Succesfull return")
 	 *   )
