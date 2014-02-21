@@ -60,6 +60,10 @@ class Params{
 		{
 			$Parameter = $this->db->parameters("ParamName = ?", strtolower($ParamName))->fetch();
 			if ($Parameter){
+				/*if ($Parameter['Hidden']<1){ 
+					$value=$Parameter['ParamValue'];} 
+				else $value="****HIDDEN****";
+				*/
 				$result=array($Parameter['ParamName'] => $Parameter['ParamValue']);
 			}
 			else{
@@ -70,8 +74,11 @@ class Params{
 		}
 		else 
 		{
-			foreach($this->db->parameters() as $parameters) { // get all applications
-				$result = $result + array($parameters['ParamName'] => $parameters['ParamValue']);
+			foreach($this->db->parameters() as $parameters) { // get all parameters
+				/*if ($parameters['Hidden']<1){
+					$value=$parameters['ParamValue'];}
+					else $value="****HIDDEN****";*/
+				$result = $result + array($parameters['ParamName'] => htmlentities($parameters['ParamValue']));
 			}
 		
 		}

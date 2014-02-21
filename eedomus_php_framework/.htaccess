@@ -1,5 +1,13 @@
 RewriteEngine On
 RewriteBase /api/
+
+# rewrite rule to display help
 RewriteRule ^api/help/(.*) Library/swagger-ui/$1 [L]
+
+# Rewrite rule to handle get method on xml files
+RewriteCond  %{REQUEST_METHOD}  ^GET$
+RewriteRule ^api/meteo/previsions xmlFiles/previsions.xml [L]
+
+# General rewrite rule
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule (.*) api.php/$1

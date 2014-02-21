@@ -16,6 +16,8 @@ function FREedom_autoloader($class) {
 }
 spl_autoload_register('FREedom_autoloader');
 
+
+
 // config File read
 $configFile=new ReadConfigFile;
 
@@ -388,7 +390,93 @@ $app->get('/meteo/tempressentie/:temp/:wind/:unit', function ($temp,$wind,$unit)
 		$eedomus->TempRessentie($temp, $wind, $unit);
 	});
 	
+$app->put('/meteo/previsions', function () use ($app,$params,$eedomus){
+	/**
+	 *
+	 * @url PUT custom
+	 *
+	 * @SWG\Api(
+	 *   path="/meteo/previsions",
+	 *   @SWG\Operation(
+	 *     method="PUT",
+	 *     summary="update meteo forecast",
+	 *     notes="update meteo forecast<br> based on aurel's <a href='http://www.domo-blog.fr/les-previsions-meteo-avec-eedomus/'>work</a><br> Please read Aurel's article to know what Url to use",
+	 *     nickname="UpdateMeteoForecast",
+	 *     @SWG\Parameter(
+	 *       name="STORED_MeteoUrl",
+	 *       description="Url to be used",
+	 *       required=false,
+	 *       type="integer",
+	 *       format="int64",
+	 *       paramType="form",
+	 *       minimum="1.0",
+	 *       maximum="100000.0"
+	 *     ),
+	 *     @SWG\ResponseMessage(code=200, message="Succesfull return")
+	 *   )
+	 * )
+	 */
+	$meteo = new meteo($params,$eedomus);
+	$app->XmlOutput($meteo->update());
+	});
+
+$app->get('/meteo/previsions', function () use ($app,$eedomus){
+		/**
+		 *
+		 * @url GET custom
+		 *
+		 * @SWG\Api(
+		 *   path="/meteo/previsions",
+		 *   @SWG\Operation(
+		 *     method="GET",
+		 *     summary="return meteo forecast",
+		 *     notes="return meteo forecast, <br> based on aurel's <a href='http://www.domo-blog.fr/les-previsions-meteo-avec-eedomus/'>work</a>",
+		 *     nickname="ReturnMeteoForecast",
+		 *     @SWG\ResponseMessage(code=200, message="Succesfull return")
+		 *   )
+		 * )
+		 */
+		//Redirect handled by .htaccess
+	});
+
+$app->get('/meteo/vigimeteo', function () use ($app,$eedomus){
+		/**
+		 *
+		 * @url GET custom
+		 *
+		 * @SWG\Api(
+		 *   path="/meteo/vigimeteo",
+		 *   @SWG\Operation(
+		 *     method="GET",
+		 *     summary="return meteo risks",
+		 *     notes="return meteo risks, <br> based on Djmomo's <a href='http://www.planete-domotique.com/blog/2014/01/03/la-vigilance-meteo-dans-votre-box-domotique-evolue/'>work</a>",
+		 *     nickname="ReturnMeteoRisks",
+		 *     @SWG\ResponseMessage(code=200, message="Succesfull return")
+		 *   )
+		 * )
+		 */
+		$fichierXML = "../../xmlFiles/carte_vigilance_meteo.xml";
 		
+		$fichier = false;
+		
+		// Choix entre affichage ou sauvegarde
+		/*$_GET_lower = array_change_key_case($_GET, CASE_LOWER);
+		if (isset ($_GET_lower['json']))
+		{
+			$format = "json";
+			header('Content-Type: application/json; charset=utf-8');
+		}
+		elseif (isset ($_GET_lower['xml']))
+		$format = "xml";
+		else
+			$fichier = $fichierXML;
+		*/
+		$app->response->headers->set('Content-Type', 'application/xml');
+		$format="xml";
+		$meteo = new VigilanceMeteo($format,"Etats de vigilance météorologique des départements (métropole et outre-mer) et territoires d'outre-mer français");
+		$meteo->DonneesVigilance($fichier);
+		
+	});
 	
 /**************************************
  * 
@@ -759,7 +847,7 @@ $app->get('/freebox/wifi/:state', function($state) use ($app)
 /**  * @SWG\Resource(
  *   apiVersion="1.0.0",
  *   swaggerVersion="1.2",
- *   basePath="http://localhost:8080/api",
+ *   basePath="/api",
  *   resourcePath="saison",
  *   description="Operations on seasons",
  *   produces="['application/xml']"

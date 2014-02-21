@@ -1,175 +1,309 @@
 <?php
 
-  // vigilancemeteo_class.php
+/*************************************************************************************
+**												
+** Classe PHP VigilanceMeteo
+**												
+** Toutes versions - DjMomo - Voir Readme.md
+**
+**************************************************************************************/
   
-class vigilancemeteo {
-
-	var $img;
-	var $legend;
-	var $couleurs;
-	var $tolerance;
-
-	function VigilanceMeteo($region) 
-	{
-		$this->legend = $this->createimage($region["colours"]["URL"]);
-		$this->img = $this->createimage($region["URL"]);
-		$this->tolerance = $region["colours"]["tolerance"];
-	}
-	
-	function effaceimages()
-	{
-		$this->destroyimage($this->img);
-		$this->destroyimage($this->legend);
-	}
-	
-	function createimage($imgURL) {
-		// Crée une ressource à partir d'une URL d'image
-		$this->img_ok = true;
-		$img_type = $this->imagetype($imgURL);
-		if (strcasecmp($img_type,"png") == 0)
-			$img = @imagecreatefrompng($imgURL);
-		if (strcasecmp($img_type,"gif") == 0)
-			$img = @imagecreatefromgif($imgURL);
-		if ((strcasecmp($img_type,"jpg") == 0) || (strcasecmp($img_type,"jpeg") == 0))
-			$img = @imagecreatefromjpeg($imgURL);
-		if (!$img) {
-			$this->img_ok = false;
-		}
-		return $img;
-	}
-
-	function destroyimage($img)
-	{
-		imagedestroy($img);
-	}
-	
-	function imagetype($imgURL)
-	{
-		$URL = explode('.',$imgURL);
-		$position = count($URL) - 1;
-		return $URL[$position];
-	}
-	
-	function compareColors ($col1, $col2, $tolerance=35) 
-	{
-		$col1Rgb = array(
-			"r" => ($col1 >> 16) & 0xFF,
-			"g" => ($col1 >> 8) & 0xFF,
-			"b" => $col1 & 0xFF
-			);
-		$col2Rgb = array(
-			"r" => ($col2 >> 16) & 0xFF,
-			"g" => ($col2 >> 8) & 0xFF,
-			"b" => $col2 & 0xFF
-			);
-
-		return ((abs($col1Rgb['r'] - $col2Rgb['r']) <= $tolerance) && (abs($col1Rgb['g'] - $col2Rgb['g']) <= $tolerance) && (abs($col1Rgb['b'] - $col2Rgb['b']) <= $tolerance));
-	}
-	
-	function getColours($colours)
-	{
-		// Recuperation des index des couleurs de la légende de la carte
-		$bleu = imagecolorat($this->legend, $colours["bleu"]["x"], $colours["bleu"]["y"]); 
-		$vert = imagecolorat($this->legend, $colours["vert"]["x"], $colours["vert"]["y"]); 
-		$jaune = imagecolorat($this->legend, $colours["jaune"]["x"], $colours["jaune"]["y"]);
-		$orange = imagecolorat($this->legend, $colours["orange"]["x"], $colours["orange"]["y"]);
-		$rouge = imagecolorat($this->legend, $colours["rouge"]["x"], $colours["rouge"]["y"]);
-		$violet = imagecolorat($this->legend, $colours["violet"]["x"], $colours["violet"]["y"]);
-		$gris = imagecolorat($this->legend, $colours["gris"]["x"], $colours["gris"]["y"]);
+class VigilanceMeteo 
+{
+	private $OUTPUT_FORMAT;
+	private $XML_COMMENT;
+	private $DATA = array();
+	private $HEADER = array();
+	private $UPDATE;
+	private $METEO_XML_DATA_URL;	// Mï¿½tropole
+	private $METEO_TXT_UPDATE_URL;	// Antilles
+	private $METEO_TXT_DATA_URL;	// Antilles
+	private $DOM;
+	private $RISQUE = array("","vent","pluie-inondation","orages","inondations","neige-verglas","canicule","grand-froid","avalanches","vagues-submersion","crues");
+	private $DEP;
 		
-		$this->couleurs = array($bleu,$vert,$jaune,$orange,$rouge,$violet,$gris);
-	}
-	
-	function getPolygone($dept) 
+	public function __construct($output_format = "XML", $entete_XML = "")
 	{
-		global $coordonnees;
+		spl_autoload_register(array($this,"autoloader"));
+
+		$this->OUTPUT_FORMAT = $output_format;
+		$this->XML_COMMENT = $entete_XML;
+		$this->METEO_XML_DATA_URL = "http://vigilance.meteofrance.com/data/NXFR34_LFPW_.xml";
+		$this->METEO_TXT_UPDATE_URL = "http://www.meteo.gp/donnees/pics/date_vigi.txt";
+		$this->METEO_TXT_DATA_URL = "http://www.meteo.gp/donnees/pics/RSS_couleurs.txt";
+		$this->METEO_XML_DETAILS_URL = "WXML%DEPT%_LFPW_.xml";//"http://www.vigimeteo.com/data/WXML%DEPT%_LFPW_.xml";
 		
-		// Tableau des sommets x,y dans l'ordre du polygone qui encadre le département $dept 
-		$tab = explode(',',$coordonnees[$dept]);
-
-		return $tab;
+		$update = $this->ToUTF8("update");
+		$updateval = $this->ToUTF8(date("d-m-Y H:i"));
+		$this->UPDATE[$update] = $updateval;
 	}
-
-	function getRectangle($dept) 
-	{
-		$tab = $this->getPolygone($dept);
 	
-		// Recherche xmin et xmax
-		$xmax = $tab[0];
-		$xmin = $tab[0];
-		for ($i = 0; $i < count($tab)-1 ; $i+=2) {
-			if ($tab[$i]>$xmax) $xmax = $tab[$i];
-			if ($tab[$i]<$xmin) $xmin = $tab[$i];
-		}
-		// Recherche ymin et ymax
-		$ymax = $tab[1];
-		$ymin = $tab[1];
-		for ($i = 1; $i < count($tab) ; $i+=2) {
-			if ($tab[$i]>$ymax) $ymax = $tab[$i];
-			if ($tab[$i]<$ymin) $ymin = $tab[$i];
-		}
-		$rect = array($xmin,$ymin,$xmax,$ymax);
-		return $rect;
-	}
-
-	function alertMe($dept) 
+	function autoloader ($pClassName) 
 	{
-		$alertMe = false;
-
-		if ($this->img_ok == true) 
-		{
-			list($xmin,$ymin,$xmax,$ymax) = $this->getRectangle($dept);
-
-			// On recherche une des couleurs prédéfinies
-			// Sens horizontal de recherche
-			$x = round($xmin + ($xmax-$xmin) / 2);
-			$y = round($ymin + ($ymax-$ymin) / 2);
-
-			while (($x <= $xmax) && ($alertMe == false))
-			{
-				$color_index = imagecolorat($this->img,$x,$y);
-				$colors = imagecolorsforindex($this->img, $color_index);
-
-				foreach ($this->couleurs as $index_couleur)
-				{
-					if (($this->compareColors ($color_index, $index_couleur,$this->tolerance) == true) && ($alertMe == false))
-					{
-						$position = array_keys($this->couleurs, $index_couleur);
-						$alertMe = $position[0];
-						return  $alertMe;
-					}
-				}
-				$x++;
-			}
-			
-			// Sens vertical de recherche
-			$x = round($xmin + ($xmax-$xmin) / 2);
-			$y = round($ymin + ($ymax-$ymin) / 2);
-
-			while (($y <= $ymax) && ($alertMe == false))
-			{
-				$color_index = imagecolorat($this->img,$x,$y);
-				$colors = imagecolorsforindex($this->img, $color_index);
-
-				foreach ($this->couleurs as $index_couleur)
-				{
-					if (($this->compareColors ($color_index, $index_couleur,$this->tolerance) == true) && ($alertMe == false))
-					{
-						$position = array_keys($this->couleurs, $index_couleur);
-						$alertMe = $position[0];
-						return  $alertMe;
-					}
-				}
-				$y++;
-			}
-			
-			if ($alertMe == false)
-				$alertMe = 0;
-		}
+        include(__DIR__ . "/" . $pClassName . ".class.php");
+    }
+	
+    private function GetData($url)
+	{
+		// Rï¿½cupï¿½re le contenu du fichier source des donnï¿½es
+		return file_get_contents($url);
+	}
+	
+	public function DonneesVigilance($file = false)
+	{
+		//
+		// Donnï¿½es de mï¿½tropole
+		//
+		$this->MetropoleDataFormat();
+		
+		//
+		// Donnï¿½es des Antilles
+		//
+		//$this->AntillesDataFormat();
+				
+		// Fusion des tableaux d'entete et de donnees
+		$this->SortAndMergeHeaderAndData();
+		$root = $this->ToUTF8("vigilance");
+		$arr = $this->DATA;
+		$this->DATA = array();
+		$this->DATA[$root] = $arr;
+		
+		if ($file === false)
+			echo $this->OuputEncode();
 		else
-			echo "Impossible de charger l'image";
+		{
+			if ($this->OutputEncodeXML($file) !== false)
+				echo "Ecriture rÃ©ussie. Les donnÃ©es sont disponibles dans le fichier $file";
+			else
+				echo "Il y a eu un problÃ¨me lors de la sauvegarde du fichier $file";
+		}
+	}
+	
+	private function SortAndMergeHeaderAndData()
+	{
+		// Fusion des tableaux entete et donnï¿½es aprï¿½s tri du tableau des donnï¿½es
+		$this->DataSort();
+		$this->DATA = (array_merge($this->UPDATE,$this->HEADER,$this->DATA));
+	}
+	
+	private function CreateHeader($location,$data)
+	{
+		if (strcasecmp($location, "metropole") == 0)
+			$this->CreateMetropoleHeader($data);
+		if (strcasecmp($location, "antilles") == 0)
+			$this->CreateAntillesHeader($data);
+	}
+	
+	private function CreateMetropoleHeader($array_data)
+	{
+		$label = $this->ToUTF8("bulletin_metropole");
+		$this->HEADER[$label] = array(
+									$this->ToUTF8("creation") => $this->ToUTF8($this->ConvertLongDateToFRDate($array_data['dateinsert'])),
+									$this->ToUTF8("mise_a_jour") => $this->ToUTF8($this->ConvertLongDateToFRDate($array_data['daterun'])),
+									$this->ToUTF8("validite") => $this->ToUTF8($this->ConvertLongDateToFRDate($array_data['dateprevue'])),
+									$this->ToUTF8("version") => $this->ToUTF8($array_data['noversion'])
+									);
+	}
+	
+	private function CreateAntillesHeader($str)
+	{
+		$label = $this->ToUTF8("bulletin_antilles");
+		$this->HEADER[$label] = array(
+									$this->ToUTF8("creation") => $this->ToUTF8($this->ConvertLongDateToFRDate($str)),
+									);
+	}
+	
+	private function ConvertLongDateToFRDate($str)
+	{
+		// Date au format YYYYMMDDHHMMSS
+		$year = substr($str,0,4);
+		$month = substr($str,4,2);
+		$day = substr($str,6,2);
+		$hour = substr($str,8,2);
+		$min = substr($str,10,2);
+				
+		return $day."-".$month."-".$year." ".$hour.":".$min;
+	}
+	
+	private function MetropoleDataFormat()
+	{
+		// Lit et met en forme les donnï¿½es pour le format de sortie
+		$xml = new SimpleXMLElement($this->GetData($this->METEO_XML_DATA_URL));
 		
-		return $alertMe;
+		foreach ($xml->datavigilance as $line)
+		{	
+			$type = $this->Filter($line);
+			if (strcasecmp($type,"dep") == 0)
+			{
+				$this->DEP = $this->ToUTF8("dep_".$line['dep']);
+				$this->AddData($line);
+			}
+			if (strcasecmp($type,"cote") == 0)
+			{
+				$this->DEP = $this->ToUTF8("cote_".substr($line['dep'],0,2));
+				$this->AddData($line);
+			}
+		}
+		$this->CreateHeader("metropole",$xml->entetevigilance);
+	}
+	
+	private function AddData($data)
+	{
+		$NiveauMax = $this->NiveauMax($data);
+
+		if ($NiveauMax > 2) 
+		{
+			$risque = $this->RisqueConcat($data->risque["valeur"], $this->DATA[$this->DEP]["risque"]);
+			if (isset ($data->crue["valeur"]))
+				$risque = $this->RisqueConcat((int)$data->crue["valeur"]+10, $risque);
+		}
+		elseif ($NiveauMax == 2)
+			$risque = "Soyez prudents"; 
+			else
+				$risque = "RAS"; 
+		
+		if ((isset ($data->crue["valeur"])) && 	($data->crue["valeur"]) > 0)
+			$this->DATA[$this->DEP] = array (
+							$this->ToUTF8("niveau") => $this->ToUTF8($NiveauMax), 
+							$this->ToUTF8("alerte") => $this->ToUTF8($this->ConvertLevelToColor($NiveauMax)),
+							$this->ToUTF8("risque") => $this->ToUTF8($risque),
+							$this->ToUTF8("crues")	=> $this->ToUTF8($data->crue["valeur"])
+									);
+		else
+			$this->DATA[$this->DEP] = array (
+							$this->ToUTF8("niveau") => $this->ToUTF8($NiveauMax), 
+							$this->ToUTF8("alerte") => $this->ToUTF8($this->ConvertLevelToColor($NiveauMax)),
+							$this->ToUTF8("risque") => $this->ToUTF8($risque),
+									);
+	}
+	
+	private function NiveauMax($data)
+	{
+		((int)$data['couleur'] >= (int)$data->crue['valeur']) ? $niveau = $data['couleur'] : $niveau = $data->crue['valeur'];
+		return $niveau;
+	}
+	
+	private function RisqueConcat($risque,$risque_text = "")
+	{
+		if ($this->RisqueConvert($risque) != "")
+		{
+			if (strlen($risque_text) > 0)
+				$risque_text .= ", ".ucfirst($this->RisqueConvert($risque));
+			else
+				$risque_text = ucfirst($this->RisqueConvert($risque));
+		}
+		return $risque_text;
+	}
+	
+	private function RisqueConvert($risque)
+	{
+		$risque = (int)$risque;
+		return $this->RISQUE[$risque];
+	}
+	
+	private function AntillesDataFormat()
+	{
+		// Lit et met en forme les donnï¿½es des Antilles pour le format de sortie
+		$txt = $this->GetData($this->METEO_TXT_DATA_URL);
+		$txt = preg_replace("#( +)#", " ", trim($txt)); // Suppression des espaces inutiles
+		
+		$data = explode(PHP_EOL,$txt);
+		
+		foreach ($data as $line)
+		{	
+			if (strlen(trim($line)) != 0)
+			{
+				$data = explode(" ", trim($line));
+				
+				$this->DEP = $this->ToUTF8("dep_".$this->ConvertDepartmentToNumber($data[0]));
+				$this->DATA[$this->DEP] = array (
+										$this->ToUTF8("niveau") => $this->ToUTF8($this->ConvertColorToLevel($data[1])), 
+										$this->ToUTF8("alerte") => $this->ToUTF8($this->ConvertLevelToColor($this->ConvertColorToLevel($data[1])))
+										);
+			}
+		}
+	
+		// Recopie du 978 car mï¿½mes donnï¿½es que le 977
+		$this->DEP = $this->ToUTF8("dep_978");
+		$dep_ini = $this->ToUTF8("dep_977");
+		$arr = $this->DATA[$dep_ini];
+		$this->DATA[$this->DEP] = $this->DATA[$dep_ini];
+		
+		$this->CreateHeader("antilles",$this->GetData($this->METEO_TXT_UPDATE_URL));
+	}
+	
+	private function ToUTF8($str)
+	{
+		return utf8_encode($str);
+	}
+	
+	private function ConvertDepartmentToNumber($dep)
+	{
+		$dep = strtolower($dep);
+		$DepNumber = array("guadeloupe" => 971, "martinique" => 972, "guyane" => 973, "idn" => 977);
+		return $DepNumber[$dep];
+	}
+	
+	private function ConvertLevelToColor($level)
+	{
+		$level = (int)$level;
+		$colors = array('Bleu','Vert','Jaune','Orange','Rouge','Violet','Gris');
+		return $colors[$level];
+	}
+	
+	private function ConvertColorToLevel($color)
+	{
+		$color = strtolower($color);
+		$level = array('bleu' => 0,'vert' => 1,'jaune' => 2,'orange' => 3,'rouge' => 4,'violet' => 5,'gris' => 6);
+		return $level[$color];
+	}
+	
+	private function Filter($data)
+	{
+		// Filtrage des donnï¿½es (depts 99, 2A10, 4010, 3310, etc..) du fichier source de mï¿½tropole
+		if (((strlen ($data['dep']) == 2) && ($data['dep'] < 96)) || ($data['dep'] == 99)) 
+			return 'dep';
+		if ((strlen($data['dep']) == 4) && (strcasecmp(substr($data['dep'],-2),"10") == 0))
+			return 'cote';
+		return false;
+	}
+	
+	private function DataSort()
+	{
+		ksort($this->DATA);
+	}
+	
+	private function OuputEncode()
+	{
+		// Fonction qui retourne les donnï¿½es au format choisi
+		if (strcasecmp($this->OUTPUT_FORMAT,"XML") == 0)
+			return $this->OutputEncodeXML();		// Format XML
+		
+		if (strcasecmp($this->OUTPUT_FORMAT,"JSON") == 0)
+			return $this->OutputEncodeJSON(); 	// Format JSON
+		
+		return false;
+	}
+	
+	private function OutputEncodeXML($file = false)
+	{
+		// Fonction d'encodage en XML ï¿½ partir de la classe XmlDomConstruct
+		$this->DOM = new XmlDomConstruct('1.0', 'utf-8');
+		$this->DOM->formatOutput = true;
+		$comment_elt = $this->DOM->createComment($this->ToUTF8($this->XML_COMMENT));
+		$this->DOM->appendChild($comment_elt);
+		$this->DOM->fromMixed($this->DATA);
+ 
+		if ($file === false)
+			return $this->DOM->saveXML();
+		else
+			return $this->DOM->save($file);
+	}
+	
+	private function OutputEncodeJSON()
+	{
+		// Fonction d'encodage en JSON
+		return json_encode($this->DATA);
 	}
 }
 

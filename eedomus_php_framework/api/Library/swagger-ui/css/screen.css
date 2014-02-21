@@ -227,7 +227,7 @@ table {
   color: #aaaaaa;
 }
 .swagger-ui-wrap a {
-  color: rgb(78, 130, 196);
+  color: #547f00;
 }
 .swagger-ui-wrap a img {
   border: none;
@@ -1042,7 +1042,7 @@ table {
   padding: 6px 8px;
   font-size: 0.9em;
   color: white;
-  background-color: #000000;
+  background-color: #547f00;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   -o-border-radius: 4px;
@@ -1067,16 +1067,4 @@ table {
   min-height: 30px;
   text-align: center;
   padding-top: 10px;
-}
-body #header a#logo {
-font-size: 1.5em;
-font-weight: bold;
-text-decoration: none;
-background: transparent url(http://luracast.com/images/restler3-icon.png) no-repeat left center;
-padding: 20px 0 20px 40px;
-color: white;
-}
-body #header {
-background-color: #646257;
-padding: 14px;
 }
