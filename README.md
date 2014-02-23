@@ -1,4 +1,4 @@
-FREEDOM - Framework Rest EEDOMus
+# FREEDOM - Framework Rest EEDOMus
 ================================
 
 21/02/2014 : Version 0.3
@@ -9,7 +9,7 @@ FREEDOM - Framework Rest EEDOMus
 - Modif:  
  - Update de swagger-ui (Interface de l'aide)
              
-Installation
+## Installation
 ============
 - configuration mysql
  - créer une base, configurer les paramètres dans le fichier config.ini
