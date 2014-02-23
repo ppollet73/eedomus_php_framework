@@ -1,20 +1,28 @@
 # FREEDOM - Framework Rest EEDOMus
-================================
 
 21/02/2014 : Version 0.3
-
 - Ajout: 
- - revisions meteo basée sur le travail d'Aurel (http://www.domo-blog.fr/les-previsions-meteo-avec-eedomus/)
+ - Previsions meteo basée sur le travail d'Aurel (http://www.domo-blog.fr/les-previsions-meteo-avec-eedomus/)
  - Vigilance météo, basé sur le travail de Djmomo (http://www.planete-domotique.com/blog/2014/01/03/la-vigilance-meteo-dans-votre-box-domotique-evolue)
 - Modif:  
  - Update de swagger-ui (Interface de l'aide)
+
+## Fonctionalités
+
+- Opérations mathématiques (addition/soustraction/multiplication/division + la possibilité d'incrémenter/décrémenter des paramètres)
+- capteur Internet (vitese download et ping)
+- gestion de paramètres stockés en base pour s'affranchir de certains états virtuels
+- export BDPV
+- périphérique saison (pour affficher la saison en cours)
+- Prévisions météo
+- Vigilance météo
              
 ## Installation
-============
+
 - configuration mysql
  - créer une base, configurer les paramètres dans le fichier config.ini
  - initialiser la base (elle ne contient pour l'instant qu'une seule table) 
-   ```SQL
+   ```
    CREATE TABLE IF NOT EXISTS `parameters` (
   `ParamName` varchar(40) NOT NULL,
   `ParamValue` varchar(200) NOT NULL,
