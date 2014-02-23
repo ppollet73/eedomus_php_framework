@@ -12,7 +12,12 @@ use Swagger\Swagger;
 
 // Autoloading api classes
 function FREedom_autoloader($class) {
-	include './Library/' . strtolower($class) . '.class.php';
+	if (file_exists('./Library/freebox/'. strtolower($class) . '.php')){
+		include './Library/freebox/' . strtolower($class) . '.php';
+	}
+	else{
+		include './Library/' . strtolower($class) . '.class.php';
+	}
 }
 spl_autoload_register('FREedom_autoloader');
 
@@ -300,6 +305,29 @@ $app->get('/energy/bdpv', function ($previousindex,$indexnow,$dailytotal) use ($
 				'status' => 200,
 		));
 	});
+
+$app->get('/energy/EJP', function () use ($app,$eedomus){
+		/**
+		 *
+		 * @url GET custom
+		 *
+		 * @SWG\Api(
+		 *   path="/energy/EJP",
+		 *   @SWG\Operation(
+		 *     method="GET",
+		 *     summary="return EJP data",
+		 *     notes="return EJP risks, <br> based on Djmomo's <a href='http://www.planete-domotique.com/blog/2013/06/17/connaitre-les-jours-ejp-et-le-nombre-restant-grace-a-sa-box-domotique/'>work</a>",
+		 *     nickname="ReturnEJP",
+		 *     @SWG\ResponseMessage(code=200, message="Succesfull return")
+		 *   )
+		 * )
+		 */
+		$app->response->headers->set('Content-Type', 'application/xml');
+		$energy=new energy();
+		$energy->EJP();
+	
+	});
+	
 
 
 /**************************************
@@ -836,8 +864,25 @@ $app->get('/freebox/wifi/:state', function($state) use ($app)
 	 *   )
 	 * )
 	 */
-	$app->render('api/vendor/DJMomo/ApiFreebox/freebox.php');
-});
+	$config_file = 'mafreebox.cfg';
+	if(file_exists($config_file))
+		require_once($config_file);
+	else
+		die ("Fichier de configuration manquant !");
+
+	// 	Instantation de la classe PHP Freebox pour l'authentification (obligatoire)
+	$freebox = new freebox($config);
+	$configuration = new Configuration($freebox);
+
+	// On ou off
+	if(strtoLower($state) == "on" ){
+		$enabled = true;}
+	else{
+		$enabled = false;}
+
+	$array_config = array("ap_params" => array( "enabled" => $enabled));
+	$configuration->UpdateWifiConfig($array_config);
+	});
 
 /********************************
  *
